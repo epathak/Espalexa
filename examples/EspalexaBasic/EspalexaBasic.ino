@@ -12,7 +12,7 @@
 boolean connectWifi();
 
 //callback functions
-void deviceChanged(String devicename, uint8_t brightness);
+void deviceChanged(String devicename, uint8_t brightness);// Proto with second parameter added.
 
 // Change this!!
 const char* ssid = "...";
@@ -31,12 +31,21 @@ void setup()
   wifiConnected = connectWifi();
   
   if(wifiConnected){
-    
+    // This part can be looped for number of devices even with same name as below
     device1 = new EspalexaDevice("Light 1", deviceChanged);//Intantiate variables
     espalexa.addDevice(device1);
     
     device2 = new EspalexaDevice("Light 2", deviceChanged);
     espalexa.addDevice(device2);
+    
+    /*
+                                  OR
+    
+    for(int i=0; i<4; i++){
+      device = new EspalexaDevice("Light "+String(i+1), deviceChanged);
+      espalexa.addDevice(device);
+    }
+    */
 
     espalexa.begin();
     
@@ -64,6 +73,17 @@ void thirdLightChanged(String devicename, uint8_t brightness) {
   if(devicename == "Light 2"){
     //do something like analogWrite(pin2, brightness);
   }
+  /*                        OR
+    switch(devicename){
+      case "Light 1":
+      //do your thing
+      break;
+      
+      case "Light 2":
+      //do your thing
+      break;
+    }
+  */
 }
 
 // connect to wifi – returns true if successful or false if not
