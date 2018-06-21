@@ -12,9 +12,7 @@
 boolean connectWifi();
 
 //callback functions
-void firstLightChanged(uint8_t brightness);
-void secondLightChanged(uint8_t brightness);
-void thirdLightChanged(uint8_t brightness);
+void deviceChanged(String devicename, uint8_t brightness);
 
 // Change this!!
 const char* ssid = "...";
@@ -24,7 +22,7 @@ boolean wifiConnected = false;
 
 Espalexa espalexa;
 
-EspalexaDevice* device3; //this is optional
+EspalexaDevice* device1, device2; //Declare device variables
 
 void setup()
 {
@@ -34,13 +32,11 @@ void setup()
   
   if(wifiConnected){
     
-    // Define your devices here. 
-    espalexa.addDevice("Light 1", firstLightChanged); //simplest definition, default state off
-    espalexa.addDevice("Light 2", secondLightChanged, 255); //third parameter is beginning state (here fully on)
+    device1 = new EspalexaDevice("Light 1", deviceChanged);//Intantiate variables
+    espalexa.addDevice(device1);
     
-    device3 = new EspalexaDevice("Light 3", thirdLightChanged); //you can also create the Device objects yourself like here
-    espalexa.addDevice(device3); //and then add them
-    device3->setValue(128); //this allows you to e.g. update their state value at any time!
+    device2 = new EspalexaDevice("Light 2", deviceChanged);
+    espalexa.addDevice(device2);
 
     espalexa.begin();
     
@@ -59,28 +55,15 @@ void loop()
    delay(1);
 }
 
-//our callback functions
-void firstLightChanged(uint8_t brightness) {
-    Serial.print("Device 1 changed to ");
-    
-    //do what you need to do here
+//our callback function
 
-    //EXAMPLE
-    if (brightness) {
-      Serial.print("ON, brightness ");
-      Serial.println(brightness);
-    }
-    else  {
-      Serial.println("OFF");
-    }
-}
-
-void secondLightChanged(uint8_t brightness) {
-  //do what you need to do here
-}
-
-void thirdLightChanged(uint8_t brightness) {
-  //do what you need to do here
+void thirdLightChanged(String devicename, uint8_t brightness) {
+  if(devicename == "Light 1"){
+    //do something like analogWrite(pin1, brightness);
+  }
+  if(devicename == "Light 2"){
+    //do something like analogWrite(pin2, brightness);
+  }
 }
 
 // connect to wifi – returns true if successful or false if not
