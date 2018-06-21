@@ -23,23 +23,23 @@ First, you'll need a global object declaration and a prototype for the function 
 ```cpp
 #include <Espalexa.h>
 
-void firstDeviceChanged(uint8_t brightness);
+void deviceChanged(String devicename, uint8_t brightness);
 
 Espalexa espalexa;
 ```
 
 You then want to actually add the callback function (one for each device)
 ```cpp
-void firstDeviceChanged(uint8_t brightness) {
+void deviceChanged(String devicename, uint8_t brightness) {
   //brightness parameter contains the new device state (0:off,255:on,1-254:dimmed)
-  
+  //devicename parameter contains the name of device (Light 1, Light 2 etc.)
   //do what you'd like to happen here (e.g. control an LED)
 }
 ```
 
 In your setup function, after you connected to WiFi, you'd want to add your devices:
 ```cpp
-espalexa.addDevice("Alexa name of the device", firstDeviceChanged);
+espalexa.addDevice("Alexa name of the device", deviceChanged);
 ```
 The first parameter of the function is a string with the invocation name, the second is the name of your callback function (the one Espalexa will call when the state of the device was changed)
 You may also add a third `uint8_t` parameter that will specify the default brightness at boot.
@@ -64,7 +64,7 @@ EspalexaDevice* d;
 ```
 In setup:
 ```cpp
-d = new EspalexaDevice("Alexa name of the device", firstDeviceChanged);
+d = new EspalexaDevice("Alexa name of the device", deviceChanged);
 espalexa.addDevice(d);
 ```
 As you can see, `EspalexaDevice` takes the same parameters. However, you can now do stuff like:
