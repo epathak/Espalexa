@@ -386,5 +386,5 @@ void EspalexaDevice::setValue(uint8_t val)
 
 void EspalexaDevice::doCallback()
 {
-	_callback(_val);
+	_callback(_deviceName, _val);
 }
