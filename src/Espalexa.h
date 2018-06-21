@@ -10,7 +10,7 @@
 #include <ESP8266WebServer.h>
 #endif
 
-typedef void (*CallbackBriFunction) (String dn, uint8_t br);
+typedef void (*CallbackBriFunction) (String dn, uint8_t br);//Added second parameter for use with single callback function.
 
 class EspalexaDevice {
 private:
